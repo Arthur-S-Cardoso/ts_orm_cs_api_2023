@@ -5,6 +5,39 @@ import Endereco from '../models/Endereco';
 
 class JogadorController {
 
+    async login(req: Request, res: Response){
+    
+        const repository = getRepository(Jogador);//recupera o repositorio do jogador.
+    
+        const {nickname, senha} = req.body;
+    
+        const j = await repository.findOne({where : {"nickname": nickname, "senha": senha}});
+
+        if (j) {
+            return res.json(j);
+            return res.sendStatus(201);
+        }else{
+            return res.sendStatus(204);
+        }
+    }
+
+    async find(req: Request, res: Response){
+        
+        const repository = getRepository(Jogador);//recupera o repositorio do jogador.
+    
+        const nickname = req.params.nickname;
+    
+        const j = await repository.findOne({where : {"nickname": nickname}});
+
+        if (j) {
+            //return res.sendStatus(201);
+            return res.json(j);
+        }else{
+            return res.sendStatus(204);
+        }
+        
+    }
+
     async list(req: Request, res: Response){
 
         const repository = getRepository(Jogador);
@@ -48,7 +81,7 @@ class JogadorController {
 
         const repository = getRepository(Jogador);//recupera o repositorio do jogador.
 
-        const {nickname} = req.body;//extrai os atributos nickname e endereco do corpo da mensagem.
+        const nickname = req.params.nickname;//extrai os atributos nickname e endereco do corpo da mensagem.
         
         const nicknameExists = await repository.findOne({where :{nickname}});//consulta na tabela se existe um registro com o mesmo nickname da mensagem.
 
@@ -83,7 +116,6 @@ class JogadorController {
         
         return res.json(j);
     }
-       
 
 }
 

@@ -26,7 +26,7 @@ class RoundController {
     //codigo fonte referente a parate 11.
     async delete(req: Request, res: Response) {
         try {
-            const repository = getRepository(Round);
+            const repository = getRepository(Round); 
             const { numero } = req.body;
             const end = await repository.findOne({ where: { "numero": numero } });
             if (end) {
